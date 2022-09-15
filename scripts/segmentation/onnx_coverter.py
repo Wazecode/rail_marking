@@ -22,13 +22,8 @@ model = BiSeNetV2(n_classes=data_config.num_classes)
 model.load_state_dict(torch.load('bisenetv2_checkpoint_BiSeNetV2_epoch_300.pth')['state_dict'])
 model.eval()
 
-image = cv2.imread('./data/test/image.png')
-cv2.imshow('heelo', image)
-
-dummy_input = cv2.resize(image, (BiSeNetV2Config.img_width, BiSeNetV2Config.img_height))
-dummy_input = dummy_input / 255.0
-dummy_input = torch.tensor(dummy_input.transpose(2, 0, 1)[np.newaxis, :]).float()
-
+batch_size, channels, height, width = 1, 3, 512, 1024
+dummy_input = torch.randn((batch_size, channels, height, width))
 
 input_names = ['actual_input1']+ [ "learned_%d" % i for i in range(16) ]
 output_names = ['output1']
